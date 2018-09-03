@@ -32,11 +32,8 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void registerAdmin(String username, String password, String mailAddress) {
-        User user = new User(/*username, passwordEncoder.encode(password), mailAddress*/);
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setMailAddress(mailAddress);
-        user.setIsAdmin(true);
+        User user = new User(username, passwordEncoder.encode(password), mailAddress);
+        user.setAdmin(true);
         user.setMailAddressVerified(true);
         user.setEnabled(true);
         //user.Authorities = EnumSet.of(User.Authority.ROLE_ADMIN);
@@ -45,11 +42,8 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void registerUser(String username, String password, String mailAddress) {
-        User user = new User(/*username, passwordEncoder.encode(password), mailAddress*/);
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setMailAddress(mailAddress);
-        user.setIsAdmin(false);
+        User user = new User(username, passwordEncoder.encode(password), mailAddress);
+        user.setAdmin(false);
         user.setMailAddressVerified(true);
         user.setEnabled(true);
         //user.Authorities = EnumSet.of(User.Authority.ROLE_USER);

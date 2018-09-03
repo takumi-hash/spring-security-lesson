@@ -33,10 +33,6 @@ public class User implements UserDetails {
 
     private Set<Authority> authorities;
 
-/*
-    // JPA requirement
-    protected User() {}
-
     public User(String username, String password, String mailAddress) {
         this.username = username;
         this.password = password;
@@ -45,7 +41,7 @@ public class User implements UserDetails {
         this.enabled = true;
         this.authorities = EnumSet.of(Authority.ROLE_USER);
     }
-
+/*
     @PrePersist
     public void prePersist() {
         this.createdAt = new Date();
@@ -55,7 +51,7 @@ public class User implements UserDetails {
         return this.authorities.contains(Authority.ROLE_ADMIN);
     }
 
-    public void setIsAdmin(boolean isAdmin) {
+    public void setAdmin(boolean isAdmin) {
         if (isAdmin) {
             this.authorities.add(Authority.ROLE_ADMIN);
         } else {

@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface UserMapper {
 
-    @Insert("insert into user (username, password, mail_address, mail_address_verified, enabled) values (#(username), #(password), #(mail_address), #(mail_address_verified), #(enabled));insert into user_authorities (authority) values (#(authorities));")
+    @Insert("insert into user (username, password, mail_address, mail_address_verified, enabled) values (#(username), #(password), #(mail_address), #(mail_address_verified), #(enabled));")
     @Options(useGeneratedKeys = true)
     void save(User user);
 
