@@ -7,57 +7,33 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity
 public class User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
     public enum Authority {ROLE_USER, ROLE_ADMIN}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
     private String mailAddress;
 
-    @Column(nullable = false)
     private boolean mailAddressVerified;
 
-    @Column(nullable = false)
     private boolean enabled;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Set<Authority> authorities;
 
+/*
     // JPA requirement
     protected User() {}
 
@@ -74,18 +50,19 @@ public class User implements UserDetails {
     public void prePersist() {
         this.createdAt = new Date();
     }
-
+*/
     public boolean isAdmin() {
         return this.authorities.contains(Authority.ROLE_ADMIN);
     }
 
-    public void setAdmin(boolean isAdmin) {
+    public void setIsAdmin(boolean isAdmin) {
         if (isAdmin) {
             this.authorities.add(Authority.ROLE_ADMIN);
         } else {
             this.authorities.remove(Authority.ROLE_ADMIN);
         }
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -95,6 +72,7 @@ public class User implements UserDetails {
         }
         return authorities;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

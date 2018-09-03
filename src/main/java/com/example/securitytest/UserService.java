@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService implements UserDetailsService {
 
     @Autowired
-    private UserRepository repository;
+    private UserMapper userMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -22,7 +22,7 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Username is empty");
         }
 
-        User user = repository.findByUsername(username);
+        User user = userMapper.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found: " + username);
         }
@@ -32,15 +32,28 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void registerAdmin(String username, String password, String mailAddress) {
-        User user = new User(username, passwordEncoder.encode(password), mailAddress);
-        user.setAdmin(true);
-        repository.save(user);
+        User user = new User(/*username, passwordEncoder.encode(password), mailAddress*/);
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setMailAddress(mailAddress);
+        user.setIsAdmin(true);
+        user.setMailAddressVerified(true);
+        user.setEnabled(true);
+        //user.Authorities = EnumSet.of(User.Authority.ROLE_ADMIN);
+        userMapper.save(user);
     }
 
     @Transactional
     public void registerUser(String username, String password, String mailAddress) {
-        User user = new User(username, passwordEncoder.encode(password), mailAddress);
-        repository.save(user);
+        User user = new User(/*username, passwordEncoder.encode(password), mailAddress*/);
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setMailAddress(mailAddress);
+        user.setIsAdmin(false);
+        user.setMailAddressVerified(true);
+        user.setEnabled(true);
+        //user.Authorities = EnumSet.of(User.Authority.ROLE_USER);
+        userMapper.save(user);
     }
 
 }
